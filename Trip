@@ -1,0 +1,35 @@
+import java.util.*;
+
+public class Trip {
+	private ArrayList<Flight> flights;
+	 
+	public Trip (ArrayList<Flight> f) {
+		flights = f;
+	}
+ public int getDuration() {
+	Time firstD = flights.get(0).getDepartureTime();
+	Time lastA = flights.getLast().getArrivalTime();
+	
+	 if(flights.size()==0) {
+		 return 0;
+	}
+	 return firstD.minutesUntil(lastA);
+}
+ 
+ public int getShortestLayover() {
+	int shortestLayover = shortcut(1,0);
+	if(flights.size()<2) {
+		return -1;
+	}
+	for(int i = 1; i < flights.size(); i++) {
+		if(shortcut(i,i+1)<shortestLayover) {
+			shortestLayover = shortcut(i,i+1);
+		}
+	}
+	 return shortestLayover;	
+ }
+ 
+ public int shortcut(int f, int l) {
+	 return flights.get(f).getArrivalTime().minutesUntil(flights.get(l).getDepartureTime());
+ }
+}
